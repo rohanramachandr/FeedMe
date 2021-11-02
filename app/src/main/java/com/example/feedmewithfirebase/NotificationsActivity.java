@@ -6,24 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class NotificationsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_notifications);
     }
 
-    public void onClickRegister(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickHome(View view) {
-        // TODO: Login Verification here?
+    public void onClickBack(View view) {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
-
-
 }
