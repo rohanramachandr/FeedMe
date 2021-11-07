@@ -38,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="19dp"
             android:layout_marginEnd="19dp"
+            android:onClick="onClickProfile"
             android:text="Profile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

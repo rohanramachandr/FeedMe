@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.feedme.ProfileActivity;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -43,6 +44,11 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         }
     };
+
+    public void onClickProfile(View view) {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
 
     public void onClickNotifications(View view) {
         Intent intent = new Intent(this, NotificationsActivity.class);

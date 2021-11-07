@@ -19,6 +19,9 @@
             android:name=".RegisterActivity"
             android:exported="true" />
         <activity
+            android:name="com.example.feedme.ProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
