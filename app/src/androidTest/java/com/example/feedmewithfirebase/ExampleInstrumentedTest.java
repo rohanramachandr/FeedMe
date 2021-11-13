@@ -1,4 +1,4 @@
-package com.example.feedme;
+package com.example.feedmewithfirebase;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.feedme", appContext.getPackageName());
+        assertEquals("com.example.feedmewithfirebase", appContext.getPackageName());
     }
 }

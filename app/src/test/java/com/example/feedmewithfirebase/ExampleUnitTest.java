@@ -1,4 +1,4 @@
-package com.example.feedme;
+package com.example.feedmewithfirebase;
 
 import org.junit.Test;
 
