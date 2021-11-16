@@ -3,14 +3,19 @@ package com.example.feedmewithfirebase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.feedme.ProfileActivity;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -34,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
                     fragment = new SellerFragment();
                     break;
                 case R.id.buy:
+//                    fragment = new MapsFragment();
                     fragment = new BuyerFragment();
                     break;
                 case R.id.settings:
@@ -54,4 +60,5 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NotificationsActivity.class);
         startActivity(intent);
     }
+
 }
