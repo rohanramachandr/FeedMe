@@ -23,6 +23,10 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavView = findViewById(R.id.bottomnav);
         bottomNavView.setOnItemSelectedListener(bottomNavFunction);
+
+        // make buyer fragment default view upon login
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new BuyerFragment()).commit();
+        bottomNavView.setSelectedItemId(R.id.buy);
     }
 
     private NavigationBarView.OnItemSelectedListener bottomNavFunction = new NavigationBarView.OnItemSelectedListener() {
