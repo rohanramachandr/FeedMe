@@ -31,6 +31,20 @@ public class RegisterActivity extends AppCompatActivity {
         reference = rootNode.getReference("Users");
     }
 
+    private boolean checkIfValid(EditText reg, String field){
+        if (field.isEmpty()){
+            reg.setError("Username cannot be empty");
+            return false;
+        }
+        else if (!field.trim().equals(field)){
+            reg.setError("White Spaces are not allowed");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
 
 
 
@@ -45,8 +59,12 @@ public class RegisterActivity extends AppCompatActivity {
         String firstName = regFirstName.getText().toString();
         String lastName = regLastName.getText().toString();
         String username = regUsername.getText().toString();
+
+
         String password = regPassword.getText().toString();
         String confirmPassword = regConfirmPassword.getText().toString();
+
+
 
 
         UserHelperClass helperClass = new UserHelperClass(firstName, lastName, username, password);
