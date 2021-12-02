@@ -1,12 +1,22 @@
 package com.example.feedme;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import com.example.feedmewithfirebase.R;
 
@@ -25,6 +35,8 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    EditText nameText, emailText, phoneText;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -55,6 +67,52 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        Query checkUser = reference.orderByChild("username").equalTo(username);
+
+        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.exists()){
+
+                    nameText.setError(null);
+                    String passwordFromDB = snapshot.child(username).child("password").getValue(String.class);
+
+                    if (passwordFromDB.equals(password)){
+
+                        passwordEditText.setError(null);
+                        String firstNameFromDB = snapshot.child(username).child("firstName").getValue(String.class);
+                        String lastNameFromDB = snapshot.child(username).child("lastName").getValue(String.class);
+
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        intent.putExtra("firstName", firstNameFromDB);
+                        intent.putExtra("lastName", lastNameFromDB);
+                        intent.putExtra("username", username);
+                        intent.putExtra("password", passwordFromDB);
+
+                        startActivity(intent);
+
+                    }
+                    else {
+                        passwordEditText.setError("This password Is Incorrect");
+                        passwordEditText.requestFocus();
+                    }
+
+                }
+                else {
+                    usernameEditText.setError("This username does not exist");
+                    usernameEditText.requestFocus();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override

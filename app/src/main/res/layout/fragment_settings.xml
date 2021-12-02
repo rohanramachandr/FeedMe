@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,9 +9,80 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="test settings"
-        android:gravity="center" />
+        android:id="@+id/notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Notifications"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Credit Card"
+        android:textSize="20sp"
+        app:flow_verticalBias="0"
+        app:layout_constraintLeft_toLeftOf="@id/notifications"
+        app:layout_constraintTop_toBottomOf="@id/notifications"
+        app:layout_constraintVertical_weight="0" />
+
+    <TextView
+        android:id="@+id/account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Account Number"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="@id/notifications"
+        app:layout_constraintTop_toBottomOf="@id/card" />
+
+    <TextView
+        android:id="@+id/notificationsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:text="Test Name"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/notifications"
+        app:layout_constraintLeft_toRightOf="@id/notifications"
+        app:layout_constraintTop_toTopOf="@id/notifications" />
+
+    <TextView
+        android:id="@+id/cardValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Phone"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/card"
+        app:layout_constraintLeft_toLeftOf="@id/notificationsValue"
+        app:layout_constraintTop_toTopOf="@id/card" />
+
+    <TextView
+        android:id="@+id/accountValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Email"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/account"
+        app:layout_constraintLeft_toLeftOf="@id/notificationsValue"
+        app:layout_constraintTop_toTopOf="@id/account" />
+
+    <Button
+        android:id="@+id/settingModify"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/ic_baseline_settings_24"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/notifications"
+        app:rippleColor="@color/black" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
