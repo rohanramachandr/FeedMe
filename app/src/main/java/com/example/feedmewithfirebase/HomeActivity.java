@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.feedme.ProfileActivity;
+import com.example.feedme.ProfileFragment;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
@@ -41,16 +42,19 @@ public class HomeActivity extends AppCompatActivity {
             switch(item.getItemId()){
                 case R.id.sell:
                     fragment = new SellerFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                     break;
                 case R.id.buy:
 //                    fragment = new MapsFragment();
                     fragment = new BuyerFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                     break;
-                case R.id.settings:
-                    fragment = new AppSettingsFragment();
+                case R.id.settings: // PROFILE
+                    //fragment = new ProfileFragment();
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                    startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
                     break;
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
             return true;
         }
     };
