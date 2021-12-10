@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".SellerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/sellerRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="sell" />
+        android:layout_marginTop="70dp"/>
 
 </FrameLayout>
