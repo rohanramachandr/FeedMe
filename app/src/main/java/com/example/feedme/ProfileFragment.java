@@ -1,6 +1,8 @@
 package com.example.feedme;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,6 +22,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import com.example.feedmewithfirebase.R;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,11 +37,12 @@ public class ProfileFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    EditText nameText, emailText, phoneText;
+    TextView mainName, nameText, emailText, phoneText, usernameText;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -68,7 +74,26 @@ public class ProfileFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        mainName = (TextView) view.findViewById(R.id.mainName);
+        nameText = (TextView) view.findViewById(R.id.nameValue);
+        phoneText = (TextView) view.findViewById(R.id.phoneValue);
+        emailText = (TextView) view.findViewById(R.id.emailValue);
+        usernameText = (TextView) view.findViewById(R.id.profileUsernameValue);
+
+        SharedPreferences pref = this.getActivity().getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        String username = pref.getString("username", "");
         Query checkUser = reference.orderByChild("username").equalTo(username);
 
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -78,32 +103,17 @@ public class ProfileFragment extends Fragment {
                 if(snapshot.exists()){
 
                     nameText.setError(null);
+                    nameText.setText(snapshot.child(username).child("firstName").getValue(String.class) +
+                            " " + snapshot.child(username).child("lastName").getValue(String.class));
+//                    phoneText.setText(snapshot.child(username).child("phone").getValue(String.class));
+//                    emailText.setText(snapshot.child(username).child("email").getValue(String.class));
+                    usernameText.setText(snapshot.child(username).child("username").getValue(String.class));
                     String passwordFromDB = snapshot.child(username).child("password").getValue(String.class);
-
-                    if (passwordFromDB.equals(password)){
-
-                        passwordEditText.setError(null);
-                        String firstNameFromDB = snapshot.child(username).child("firstName").getValue(String.class);
-                        String lastNameFromDB = snapshot.child(username).child("lastName").getValue(String.class);
-
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        intent.putExtra("firstName", firstNameFromDB);
-                        intent.putExtra("lastName", lastNameFromDB);
-                        intent.putExtra("username", username);
-                        intent.putExtra("password", passwordFromDB);
-
-                        startActivity(intent);
-
-                    }
-                    else {
-                        passwordEditText.setError("This password Is Incorrect");
-                        passwordEditText.requestFocus();
-                    }
 
                 }
                 else {
-                    usernameEditText.setError("This username does not exist");
-                    usernameEditText.requestFocus();
+                    nameText.setError("This username does not exist");
+                    nameText.requestFocus();
                 }
 
             }
@@ -113,12 +123,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return view;
     }
 }

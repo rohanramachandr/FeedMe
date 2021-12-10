@@ -1,18 +1,28 @@
 package com.example.feedme;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.feedmewithfirebase.HomeActivity;
 import com.example.feedmewithfirebase.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -22,6 +32,8 @@ public class ProfileActivity extends AppCompatActivity {
     ViewPager2 viewPager;
     TabLayout tabLayout;
 
+    TextView nameText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +41,37 @@ public class ProfileActivity extends AppCompatActivity {
         Log.d("test", "Activity started");
         viewPager = (ViewPager2) findViewById(R.id.viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+
+//        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+//
+//        nameText = findViewById(R.id.mainName);
+//
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+//        String username = pref.getString("username", "");
+//        Query checkUser = reference.orderByChild("username").equalTo(username);
+//
+//        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                if(snapshot.exists()){
+//
+//                    nameText.setError(null);
+//                    nameText.setText(snapshot.child(username).child("firstName").getValue(String.class));
+//
+//                }
+//                else {
+//                    nameText.setError("This username does not exist");
+//                    nameText.requestFocus();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
         setPagerAdapter();
         setTabLayout();
