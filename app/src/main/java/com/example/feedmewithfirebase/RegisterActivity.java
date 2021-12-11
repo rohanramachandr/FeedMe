@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 
-        UserHelperClass helperClass = new UserHelperClass(firstName, lastName, username, password);
+        UserHelperClass helperClass = new UserHelperClass(firstName, lastName, username, password, "", "");
 
         reference.child(username).setValue(helperClass);
 
