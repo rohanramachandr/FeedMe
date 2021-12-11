@@ -68,7 +68,7 @@
         app:layout_constraintVertical_bias="0.552" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/mainName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Please provide the following details"

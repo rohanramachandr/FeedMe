@@ -3,7 +3,9 @@ package com.example.feedmewithfirebase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
 
         Query checkUser = reference.orderByChild("username").equalTo(username);
-
+        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -112,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("lastName", lastNameFromDB);
                         intent.putExtra("username", username);
                         intent.putExtra("password", passwordFromDB);
+
+                        pref.edit().putString("username", username).apply();
 
                         startActivity(intent);
 

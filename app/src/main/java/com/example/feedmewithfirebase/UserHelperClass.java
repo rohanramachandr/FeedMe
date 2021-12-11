@@ -1,15 +1,17 @@
 package com.example.feedmewithfirebase;
 
 public class UserHelperClass {
-    String firstName, lastName, username, password;
+    String firstName, lastName, username, password, latitude, longitude;
 
     public UserHelperClass(){}
 
-    public UserHelperClass(String firstName, String lastName, String username, String password) {
+    public UserHelperClass(String firstName, String lastName, String username, String password, String latitude, String longitude) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getLastName() {
@@ -36,13 +38,27 @@ public class UserHelperClass {
         this.lastName = lastName;
     }
 
-
-
     public String getFirstName() {
         return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }

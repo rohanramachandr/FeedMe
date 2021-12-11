@@ -82,16 +82,16 @@ public class BuyerFragment extends Fragment implements BuyerRecyclerAdapter.Item
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayList<String> list = new ArrayList<>();
-        list.add("test 1");
-        list.add("test 2");
-        list.add("test 3");
+        ArrayList<BuyerRecyclerData> list = new ArrayList<>();
+        list.add(new BuyerRecyclerData("test title 1", 4.99, "0.3 mi"));
+        list.add(new BuyerRecyclerData("test title 2", 1.49));
+        list.add(new BuyerRecyclerData("test title 3", 3.00, "1.1 mi"));
 
         RecyclerView recyclerView = view.findViewById(R.id.buyerRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new BuyerRecyclerAdapter(getContext(), list);
         adapter.setClickListener(this);
-        Log.d("test", adapter.getItem(1));
+        Log.d("test", adapter.getItem(1).toString());
 
         recyclerView.setAdapter(adapter);
     }
