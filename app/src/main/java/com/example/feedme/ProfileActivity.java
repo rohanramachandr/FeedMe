@@ -92,6 +92,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void onClickBack(View view) {
         Intent intent = new Intent(this, HomeActivity.class);
+        //need username for Home Activity (could also use shared pref but this one was simple
+        TextView usernameView = findViewById(R.id.profileUsernameValue);
+        String username = usernameView.getText().toString();
+
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 }
