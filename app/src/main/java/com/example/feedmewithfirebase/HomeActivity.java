@@ -81,6 +81,8 @@ public class HomeActivity extends AppCompatActivity {
     };
 
     public void updateLocation() {
+        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+
         int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION);
         // if not ask for it
         if (permission == PackageManager.PERMISSION_DENIED){
@@ -99,6 +101,8 @@ public class HomeActivity extends AppCompatActivity {
 
                             longitude = String.valueOf(mLastKnownLocation.getLongitude());
                             latitude = String.valueOf(mLastKnownLocation.getLatitude());
+                            pref.edit().putString("longitude", longitude).apply();
+                            pref.edit().putString("latitude", latitude).apply();
                             Log.i("longitude", longitude);
                             Log.i("latitude", latitude);
 
