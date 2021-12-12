@@ -50,7 +50,7 @@ public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAd
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.buyerOptionRow);
+            //myTextView = itemView.findViewById(R.id.buyerOptionRow);
             itemView.setOnClickListener(this);
         }
 
