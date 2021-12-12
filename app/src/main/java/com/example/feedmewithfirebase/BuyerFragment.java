@@ -89,7 +89,7 @@ public class BuyerFragment extends Fragment implements BuyerRecyclerAdapter.Item
 
         RecyclerView recyclerView = view.findViewById(R.id.buyerRecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new BuyerRecyclerAdapter(getContext(), list);
+        adapter = new BuyerRecyclerAdapter(getContext(), getActivity(), list);
         adapter.setClickListener(this);
         Log.d("test", adapter.getItem(1).toString());
 

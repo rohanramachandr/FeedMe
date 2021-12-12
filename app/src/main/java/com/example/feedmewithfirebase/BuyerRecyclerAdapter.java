@@ -21,10 +21,12 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
+    private Activity activity;
 
     // data is passed into the constructor
-    BuyerRecyclerAdapter(Context context, List<BuyerRecyclerData> data) {
+    BuyerRecyclerAdapter(Context context, Activity activity, List<BuyerRecyclerData> data) {
         this.context = context;
+        this.activity = activity;
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -41,8 +43,8 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         SharedPreferences pref = context.getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
-        String latitude =  pref.getString("latitude", "");
-        String longitude =  pref.getString("longitude", "");
+        String latitude =  pref.getString("latitude", "0");
+        String longitude =  pref.getString("longitude", "0");
         String foodTextString = mData.get(position).getTitle();
         double priceString = mData.get(position).getPrice();
         String distanceString = mData.get(position).getDistance(Double.valueOf(latitude), Double.valueOf(longitude));
@@ -63,8 +65,11 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
         TextView priceText;
         TextView distanceText;
 
+        private final Context contextViewHolder;
+
         ViewHolder(View itemView) {
             super(itemView);
+            contextViewHolder = activity;
             foodText = itemView.findViewById(R.id.foodText);
             priceText = itemView.findViewById(R.id.price);
             distanceText = itemView.findViewById(R.id.distance);
@@ -74,12 +79,13 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
         @Override
         public void onClick(View view) {
             if (mClickListener != null) {
-                mClickListener.onItemClick(view, getAdapterPosition());
+//                mClickListener.onItemClick(view, getAdapterPosition());
                 // should open google maps activity here
-                Intent intent = new Intent(context, MapActivity.class);
+                Intent intent = new Intent(contextViewHolder, MapActivity.class);
 //                intent.putExtra("lat", latitude);
 //                intent.putExtra("long", longitude);
-                context.startActivity(intent);
+                contextViewHolder.startActivity(intent);
+
             }
         }
     }

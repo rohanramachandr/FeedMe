@@ -37,14 +37,16 @@ public class HomeActivity extends AppCompatActivity {
     private NavigationBarView bottomNavView;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12;
-    String username;
+    String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Intent intent = getIntent();
-        username = intent.getStringExtra("username");
+//        username = intent.getStringExtra("username");
+        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+        username = pref.getString("username", "");
 
         bottomNavView = findViewById(R.id.bottomnav);
         bottomNavView.setOnItemSelectedListener(bottomNavFunction);
@@ -113,12 +115,7 @@ public class HomeActivity extends AppCompatActivity {
                             updateData.child("latitude").setValue(latitude);
                             updateData.child("longitude").setValue(longitude);
                         }
-
-
-
                     });
-
-
         }
     }
 
