@@ -59,25 +59,12 @@ public class RegisterActivity extends AppCompatActivity {
         String firstName = regFirstName.getText().toString();
         String lastName = regLastName.getText().toString();
         String username = regUsername.getText().toString();
-
-
+        
         String password = regPassword.getText().toString();
         String confirmPassword = regConfirmPassword.getText().toString();
 
-
-
-
         UserHelperClass helperClass = new UserHelperClass(firstName, lastName, username, password, "", "");
-
         reference.child(username).setValue(helperClass);
-
-
-
-//       DatabaseReference reference2 = rootNode.getReference("Sellers");
-//
-//          SellerHelperClass helperClass2 = new SellerHelperClass("0", "1", "Test Event", "Food", "12/11/2021", "12/11/2021", "", "Descrip", 40.0);
-//          reference2.child("0").setValue(helperClass2);
-
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
