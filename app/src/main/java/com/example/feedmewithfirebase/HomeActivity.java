@@ -129,4 +129,9 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void onAddItemToSell(View view) {
+        Intent intent = new Intent(this, SellerActivity.class);
+        startActivity(intent);
+    }
+
 }

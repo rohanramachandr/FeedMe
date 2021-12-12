@@ -74,13 +74,13 @@ public class SellerFragment extends Fragment implements SellerRecyclerAdapter.It
         list.add("test b");
         list.add("test c");
 
-        RecyclerView recyclerView = view.findViewById(R.id.sellerRecycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new SellerRecyclerAdapter(getContext(), list);
-        adapter.setClickListener(this);
-        Log.d("test", adapter.getItem(1));
-
-        recyclerView.setAdapter(adapter);
+//        RecyclerView recyclerView = view.findViewById(R.id.sellerRecycler);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        adapter = new SellerRecyclerAdapter(getContext(), list);
+//        adapter.setClickListener(this);
+//        Log.d("test", adapter.getItem(1));
+//
+//        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -94,4 +94,6 @@ public class SellerFragment extends Fragment implements SellerRecyclerAdapter.It
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_seller, container, false);
     }
+
+
 }

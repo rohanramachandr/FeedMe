@@ -1,8 +1,8 @@
 package com.example.feedmewithfirebase;
 
 public class SellerHelperClass {
-    String eventId, sellerId, eventName, foodItem, startTime, endTime, location, description;
-    double price;
+    public String eventId, sellerId, eventName, foodItem, startTime, endTime, location, description;
+    public double price;
 
 
     public SellerHelperClass(){}
