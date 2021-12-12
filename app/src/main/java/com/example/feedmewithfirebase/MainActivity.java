@@ -102,10 +102,10 @@ public class MainActivity extends AppCompatActivity {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-
-        Query checkUser = reference.orderByChild("username").equalTo(username);
         SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        Query checkUser = reference.orderByChild("username").equalTo(username);
         checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

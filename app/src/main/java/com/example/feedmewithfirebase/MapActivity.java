@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.feedme.ProfileActivity;
@@ -14,6 +15,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -55,13 +57,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions()
                 .position(currLocation)
                 .title("Your Location"));
+        Log.d("test", getIntent().getStringExtra("lat"));
+        Log.d("test", getIntent().getStringExtra("long"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currLocation));
-        LatLng targetLocation = new LatLng(Double.parseDouble(pref.getString("latitude", ""))-0.05,
-                Double.parseDouble(pref.getString("longitude", ""))-0.05);
+        LatLng targetLocation = new LatLng(Double.parseDouble(getIntent().getStringExtra("lat")),
+                Double.parseDouble(getIntent().getStringExtra("long")));
         mMap.addMarker(new MarkerOptions()
                 .position(targetLocation)
                 .title("TargetLocation"));
+        LatLng midPoint = getMidPoint(Double.parseDouble(pref.getString("latitude", "")),
+                Double.parseDouble(pref.getString("longitude", "")),
+                Double.parseDouble(getIntent().getStringExtra("lat")),
+                Double.parseDouble(getIntent().getStringExtra("long")));
+        CameraPosition camera = new CameraPosition.Builder().target(midPoint).zoom(14).build();
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
+    }
 
+    private LatLng getMidPoint(double lat1, double long1, double lat2, double long2) {
+        return new LatLng((lat1+lat2)/2, (long1+long2)/2);
     }
 
     public void backButton(View v) {

@@ -1,5 +1,7 @@
 package com.example.feedmewithfirebase;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +14,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -34,8 +44,29 @@ public class BuyerFragment extends Fragment implements BuyerRecyclerAdapter.Item
     private String mParam1;
     private String mParam2;
 
+    ArrayList<SellerHelperClass> list = new ArrayList<>();
+
     public BuyerFragment() {
         // Required empty public constructor
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Sellers");
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                Log.d("test", "----------LOGGING onCreate----------");
+//                for (DataSnapshot ds : snapshot.getChildren()) {
+//                    SellerHelperClass s = ds.getValue(SellerHelperClass.class);
+//                    list.add(s);
+//                    Log.d("test", s.toString());
+//                    Log.d("test", "lmao");
+//                    Log.d("test", String.valueOf(list.size()));
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 
     /**
@@ -64,6 +95,7 @@ public class BuyerFragment extends Fragment implements BuyerRecyclerAdapter.Item
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -82,17 +114,42 @@ public class BuyerFragment extends Fragment implements BuyerRecyclerAdapter.Item
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayList<BuyerRecyclerData> list = new ArrayList<>();
-        list.add(new BuyerRecyclerData("test title 1", 4.99, "1.001","1.001"));
-        list.add(new BuyerRecyclerData("test title 2", 1.49, "1.001","1.001"));
-        list.add(new BuyerRecyclerData("test title 3", 3.00, "1.001","1.001"));
+//        list.add(new BuyerRecyclerData("test title 1", 4.99, "1.001","1.001"));
+//        list.add(new BuyerRecyclerData("test title 2", 1.49, "1.001","1.001"));
+//        list.add(new BuyerRecyclerData("test title 3", 3.00, "1.001","1.001"));
+        BuyerRecyclerAdapter.ItemClickListener listener = this;
+        Context context = getContext();
+        if(list.size() == 0) {
+            list = new ArrayList<>();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Sellers");
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Log.d("test", "----------LOGGING onViewCreated----------");
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        SellerHelperClass s = ds.getValue(SellerHelperClass.class);
+                        list.add(s);
+                        Log.d("test", s.toString());
+                        Log.d("test", "lmao");
+                        Log.d("test", String.valueOf(list.size()));
+                    }
+                    RecyclerView recyclerView = view.findViewById(R.id.buyerRecycler);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    adapter = new BuyerRecyclerAdapter(context, getActivity(), list, recyclerView);
+                    adapter.setClickListener(listener);
+//        Log.d("test", adapter.getItem(1).toString());
 
-        RecyclerView recyclerView = view.findViewById(R.id.buyerRecycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new BuyerRecyclerAdapter(getContext(), getActivity(), list);
-        adapter.setClickListener(this);
-        Log.d("test", adapter.getItem(1).toString());
+                    recyclerView.setAdapter(adapter);
+                }
 
-        recyclerView.setAdapter(adapter);
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
+//        Log.d("test", "list size at this state: " + list.size());
+
     }
 }

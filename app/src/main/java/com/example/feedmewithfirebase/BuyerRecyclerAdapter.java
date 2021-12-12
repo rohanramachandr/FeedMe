@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,18 +18,20 @@ import java.util.List;
 
 public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdapter.ViewHolder> {
 
-    private List<BuyerRecyclerData> mData; // can replace this with a list of object
+    private List<SellerHelperClass> mData; // can replace this with a list of object
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Context context;
     private Activity activity;
+    private RecyclerView v;
 
     // data is passed into the constructor
-    BuyerRecyclerAdapter(Context context, Activity activity, List<BuyerRecyclerData> data) {
+    BuyerRecyclerAdapter(Context context, Activity activity, List<SellerHelperClass> data, RecyclerView v) {
         this.context = context;
         this.activity = activity;
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+        this.v = v;
     }
 
     // inflates the row layout from xml when needed
@@ -45,8 +48,8 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
         SharedPreferences pref = context.getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
         String latitude =  pref.getString("latitude", "0");
         String longitude =  pref.getString("longitude", "0");
-        String foodTextString = mData.get(position).getTitle();
-        double priceString = mData.get(position).getPrice();
+        String foodTextString = mData.get(position).eventName;
+        double priceString = mData.get(position).price;
         String distanceString = mData.get(position).getDistance(Double.valueOf(latitude), Double.valueOf(longitude));
         holder.foodText.setText(foodTextString);
         holder.priceText.setText(String.valueOf(priceString));
@@ -81,9 +84,10 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
             if (mClickListener != null) {
 //                mClickListener.onItemClick(view, getAdapterPosition());
                 // should open google maps activity here
+                int position = v.getChildAdapterPosition(view);
                 Intent intent = new Intent(contextViewHolder, MapActivity.class);
-//                intent.putExtra("lat", latitude);
-//                intent.putExtra("long", longitude);
+                intent.putExtra("lat", mData.get(position).latitude);
+                intent.putExtra("long", mData.get(position).longitude);
                 contextViewHolder.startActivity(intent);
 
             }
@@ -91,7 +95,7 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
     }
 
     // convenience method for getting data at click position
-    BuyerRecyclerData getItem(int id) {
+    SellerHelperClass getItem(int id) {
         return mData.get(id);
     }
 

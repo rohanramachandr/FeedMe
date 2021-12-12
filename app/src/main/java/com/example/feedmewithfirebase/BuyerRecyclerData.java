@@ -8,6 +8,7 @@ public class BuyerRecyclerData {
     private String distance = "Distance";
     private String latitude = "0"; //location of seller
     private String longitude = "0";
+    private String location = "";
 
     public BuyerRecyclerData(String foodTitle, double price, String latitude, String longitude) {
         this.foodTitle = foodTitle;
@@ -16,9 +17,10 @@ public class BuyerRecyclerData {
         this.longitude = longitude;
     }
 
-    public BuyerRecyclerData(String foodTitle, double price) {
+    public BuyerRecyclerData(String foodTitle, double price, String location) {
         this.foodTitle = foodTitle;
         this.price = price;
+        this.location = location;
     }
 
     public String getTitle() {
@@ -37,7 +39,6 @@ public class BuyerRecyclerData {
         Location.distanceBetween(targetLatitude, targetLongitude,
                 Double.parseDouble(latitude), Double.parseDouble(longitude), result);
         return String.valueOf(result[0]);
-
     }
 
 }
