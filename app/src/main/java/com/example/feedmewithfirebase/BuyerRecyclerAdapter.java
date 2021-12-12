@@ -1,11 +1,6 @@
 package com.example.feedmewithfirebase;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +15,9 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
     private List<BuyerRecyclerData> mData; // can replace this with a list of object
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    private Context context;
-    private Activity activity;
 
     // data is passed into the constructor
-    BuyerRecyclerAdapter(Context context, Activity activity, List<BuyerRecyclerData> data) {
-        this.context = context;
-        this.activity = activity;
+    BuyerRecyclerAdapter(Context context, List<BuyerRecyclerData> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -42,12 +33,9 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
     // can populate this with more views
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        SharedPreferences pref = context.getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
-        String latitude =  pref.getString("latitude", "0");
-        String longitude =  pref.getString("longitude", "0");
         String foodTextString = mData.get(position).getTitle();
         double priceString = mData.get(position).getPrice();
-        String distanceString = mData.get(position).getDistance(Double.valueOf(latitude), Double.valueOf(longitude));
+        String distanceString = mData.get(position).getDistance();
         holder.foodText.setText(foodTextString);
         holder.priceText.setText(String.valueOf(priceString));
         holder.distanceText.setText(distanceString);
@@ -65,11 +53,8 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
         TextView priceText;
         TextView distanceText;
 
-        private final Context contextViewHolder;
-
         ViewHolder(View itemView) {
             super(itemView);
-            contextViewHolder = activity;
             foodText = itemView.findViewById(R.id.foodText);
             priceText = itemView.findViewById(R.id.price);
             distanceText = itemView.findViewById(R.id.distance);
@@ -79,13 +64,8 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
         @Override
         public void onClick(View view) {
             if (mClickListener != null) {
-//                mClickListener.onItemClick(view, getAdapterPosition());
+                mClickListener.onItemClick(view, getAdapterPosition());
                 // should open google maps activity here
-                Intent intent = new Intent(contextViewHolder, MapActivity.class);
-//                intent.putExtra("lat", latitude);
-//                intent.putExtra("long", longitude);
-                contextViewHolder.startActivity(intent);
-
             }
         }
     }

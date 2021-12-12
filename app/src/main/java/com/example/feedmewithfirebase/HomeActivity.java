@@ -37,16 +37,14 @@ public class HomeActivity extends AppCompatActivity {
     private NavigationBarView bottomNavView;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12;
-    String username = "";
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Intent intent = getIntent();
-//        username = intent.getStringExtra("username");
-        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
-        username = pref.getString("username", "");
+        username = intent.getStringExtra("username");
 
         bottomNavView = findViewById(R.id.bottomnav);
         bottomNavView.setOnItemSelectedListener(bottomNavFunction);
@@ -83,8 +81,6 @@ public class HomeActivity extends AppCompatActivity {
     };
 
     public void updateLocation() {
-        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
-
         int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION);
         // if not ask for it
         if (permission == PackageManager.PERMISSION_DENIED){
@@ -103,8 +99,6 @@ public class HomeActivity extends AppCompatActivity {
 
                             longitude = String.valueOf(mLastKnownLocation.getLongitude());
                             latitude = String.valueOf(mLastKnownLocation.getLatitude());
-                            pref.edit().putString("longitude", longitude).apply();
-                            pref.edit().putString("latitude", latitude).apply();
                             Log.i("longitude", longitude);
                             Log.i("latitude", latitude);
 
@@ -115,7 +109,12 @@ public class HomeActivity extends AppCompatActivity {
                             updateData.child("latitude").setValue(latitude);
                             updateData.child("longitude").setValue(longitude);
                         }
+
+
+
                     });
+
+
         }
     }
 

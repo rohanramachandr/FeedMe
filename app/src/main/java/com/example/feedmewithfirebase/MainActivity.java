@@ -110,15 +110,12 @@ public class MainActivity extends AppCompatActivity {
                         String lastNameFromDB = snapshot.child(username).child("lastName").getValue(String.class);
 
                         Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-//                        intent.putExtra("firstName", firstNameFromDB);
-//                        intent.putExtra("lastName", lastNameFromDB);
-//                        intent.putExtra("username", username);
-//                        intent.putExtra("password", passwordFromDB);
+                        intent.putExtra("firstName", firstNameFromDB);
+                        intent.putExtra("lastName", lastNameFromDB);
+                        intent.putExtra("username", username);
+                        intent.putExtra("password", passwordFromDB);
 
-                        pref.edit().putString("firstName", firstNameFromDB).apply();
-                        pref.edit().putString("lastName", lastNameFromDB).apply();
                         pref.edit().putString("username", username).apply();
-                        pref.edit().putString("password", passwordFromDB).apply();
 
                         startActivity(intent);
 
