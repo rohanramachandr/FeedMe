@@ -2,7 +2,10 @@ package com.example.feedmewithfirebase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,6 +16,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.Locale;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -43,16 +48,39 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
+//        LatLng sydney = new LatLng(-34, 151);
+        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+        LatLng currLocation = new LatLng(Double.parseDouble(pref.getString("latitude", "")),
+                Double.parseDouble(pref.getString("longitude", "")));
         mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                .position(currLocation)
+                .title("Your Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(currLocation));
+        LatLng targetLocation = new LatLng(Double.parseDouble(pref.getString("latitude", ""))-0.05,
+                Double.parseDouble(pref.getString("longitude", ""))-0.05);
+        mMap.addMarker(new MarkerOptions()
+                .position(targetLocation)
+                .title("TargetLocation"));
+
     }
 
     public void backButton(View v) {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    public void openMapsButton(View v) {
+//        String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+//        String uri = "http://maps.google.com/maps?saddr=" + sourceLatitude + "," +
+//                sourceLongitude + "&daddr=" + destinationLatitude + "," +
+//                destinationLongitude  + " (" + "Where the party is at" + ")";
+//        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+//        intent.setPackage("com.google.android.apps.maps");
+//        startActivity(intent);
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + "latitude" + "," + "longitude");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 }
 

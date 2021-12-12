@@ -19,4 +19,14 @@
         android:layout_marginTop="10dp"
         android:onClick="backButton"
         android:text="Back" />
+
+    <Button
+        android:id="@+id/openMapButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:onClick="openMapsButton"
+        android:text="Open in Google Maps" />
 </RelativeLayout>
