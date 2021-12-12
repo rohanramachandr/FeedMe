@@ -71,6 +71,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         reference.child(username).setValue(helperClass);
 
+        rootNode = FirebaseDatabase.getInstance("https://feedme-55e8d-default-rtdb.firebaseio.com/");
+        //reference = rootNode.getReferenceFromUrl("https://feedme-55e8d-default-rtdb.firebaseio.com/Sellers");
+        reference = rootNode.getReference("Sellers");
+
+          SellerHelperClass helperClass2 = new SellerHelperClass("0", "1", "Test Event", "Food", "12/11/2021", "12/11/2021", "", "Descrip", 40.0);
+          reference.child("New Sale!").setValue(helperClass2);
+
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
 

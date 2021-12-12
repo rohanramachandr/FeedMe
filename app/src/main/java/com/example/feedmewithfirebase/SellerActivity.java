@@ -79,9 +79,12 @@ public class SellerActivity extends AppCompatActivity {
 
         //SellerHelperClass helperClass = new SellerHelperClass(eventId, sellerId, eventName, foodItem, startDate, endDate, location, description, price);
         SellerHelperClass helperClass = new SellerHelperClass("0", "1", "Test Event", "Food", "12/11/2021", "12/11/2021", "", "Descrip", 40.0);
-        reference.child("Sellers").setValue(helperClass);
-
-        Log.d("test","Just set the node!");
+        //reference.getKey("take 2").setValue(1);
+        Log.d("test", "Write references vals:");
+        Log.d("test",reference.getKey());
+        Log.d("test",reference.child("Sellers").toString());
+        Log.d("test",reference.getParent().toString());
+        Log.d("test",reference.toString());
 
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
