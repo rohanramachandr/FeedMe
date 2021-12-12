@@ -7,6 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +57,32 @@ public class SellerFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+//        ArrayList<String> list = new ArrayList<>();
+//        list.add("test a");
+//        list.add("test b");
+//        list.add("test c");
+
+        TextView text = view.findViewById(R.id.sell_item);
+        text.setText("hey hi");
+
+        //RecyclerView recyclerView = view.findViewById(R.id.sellerRecycler);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //adapter = new SellerRecyclerAdapter(getContext(), list);
+        //adapter.setClickListener(this);
+        //Log.d("test", adapter.getItem(1));
+
+        //recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(getActivity(), "clicked on " + adapter.getItem(position), Toast.LENGTH_SHORT).show();
     }
 
     @Override
