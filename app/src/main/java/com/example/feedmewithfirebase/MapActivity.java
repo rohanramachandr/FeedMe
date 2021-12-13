@@ -1,6 +1,7 @@
 package com.example.feedmewithfirebase;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.feedme.ProfileActivity;
 import com.google.android.gms.maps.CameraUpdate;
@@ -111,6 +114,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapIntent.setPackage("com.google.android.apps.maps");
         startActivity(mapIntent);
     }
+
+    public void requestButton(View v) {
+        // generate token
+        String token = String.format("%05d", (int) (Math.random() * 99999));
+        // populate the table with the new request
+        // update token textview
+        TextView tokenText = findViewById(R.id.tokenText);
+        tokenText.setText(token);
+        // set the constraintview to visible and hide the button
+        ConstraintLayout layout = findViewById(R.id.tokenGroup);
+        layout.setVisibility(View.VISIBLE);
+        v.setVisibility(View.GONE);
+    }
+
+    public void cancelButton(View v) {
+        ConstraintLayout layout = findViewById(R.id.tokenGroup);
+        layout.setVisibility(View.GONE);
+        Button requestButton = findViewById(R.id.requestButton);
+        requestButton.setVisibility(View.VISIBLE);
+    }
+
 }
 
 
