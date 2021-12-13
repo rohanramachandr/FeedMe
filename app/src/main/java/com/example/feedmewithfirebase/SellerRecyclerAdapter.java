@@ -1,6 +1,8 @@
 package com.example.feedmewithfirebase;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +14,26 @@ import java.util.List;
 
 public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAdapter.ViewHolder> {
 
-    private List<String> mData; // can replace this with a list of object
+    private List<SellerHelperClass> mData; // can replace this with a list of object
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private Activity activity;
+    private RecyclerView recyclerView;
+
 
     // data is passed into the constructor
-    SellerRecyclerAdapter(Context context, List<String> data) {
+    SellerRecyclerAdapter(Context context, Activity activity, List<SellerHelperClass> data, RecyclerView recyclerView) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+        this.activity= activity;
+        this.recyclerView = recyclerView;
+
     }
 
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.buyer_recycler_row, parent, false);
+        View view = mInflater.inflate(R.layout.seller_recycler_row, parent, false);
         return new ViewHolder(view);
     }
 
@@ -33,8 +41,9 @@ public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAd
     // can populate this with more views
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String text = mData.get(position);
-        holder.myTextView.setText(text);
+        SellerHelperClass item = mData.get(position);
+        holder.foodName.setText(item.eventName);
+        holder.foodPrice.setText(String.valueOf(item.price));
     }
 
     // total number of rows
@@ -46,22 +55,38 @@ public class SellerRecyclerAdapter extends RecyclerView.Adapter<SellerRecyclerAd
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
+        private final Context contextViewHolder;
+
+
+        TextView foodName;
+        TextView foodPrice;
 
         ViewHolder(View itemView) {
             super(itemView);
-            //myTextView = itemView.findViewById(R.id.buyerOptionRow);
+            contextViewHolder = activity;
+            foodName = itemView.findViewById(R.id.sellerFoodNameText);
+            foodPrice = itemView.findViewById(R.id.sellerPriceText);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (mClickListener != null) {
+                mClickListener.onItemClick(view, getAdapterPosition());
+                // should open google maps activity here
+
+                int position = recyclerView.getChildAdapterPosition(view);
+                Intent intent = new Intent(contextViewHolder, verifyPurchase.class);
+
+                intent.putExtra("eventId", mData.get(position).eventId);
+                contextViewHolder.startActivity(intent);
+
+            }
         }
     }
 
     // convenience method for getting data at click position
-    String getItem(int id) {
+    SellerHelperClass getItem(int id) {
         return mData.get(id);
     }
 
