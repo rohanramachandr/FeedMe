@@ -88,6 +88,8 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
                 Intent intent = new Intent(contextViewHolder, MapActivity.class);
                 intent.putExtra("lat", mData.get(position).latitude);
                 intent.putExtra("long", mData.get(position).longitude);
+                intent.putExtra("eventId", mData.get(position).eventId);
+                intent.putExtra("eventName", mData.get(position).eventName);
                 contextViewHolder.startActivity(intent);
 
             }

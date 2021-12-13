@@ -30,7 +30,7 @@ public class SellerHelperClass {
         Location.distanceBetween(currLatitude, currLongitude,
                 Double.parseDouble(latitude), Double.parseDouble(longitude), result);
         double distance = result[0]*0.000621371192; // from meters to miles
-        Log.d("test2", String.valueOf(distance));
+//        Log.d("test2", String.valueOf(distance));
         if(distance < 0.1) {
             distance *= 5280;
             return (int)distance + " ft";
