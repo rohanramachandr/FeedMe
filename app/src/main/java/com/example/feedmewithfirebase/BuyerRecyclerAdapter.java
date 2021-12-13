@@ -84,6 +84,7 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
             if (mClickListener != null) {
 //                mClickListener.onItemClick(view, getAdapterPosition());
                 // should open google maps activity here
+
                 int position = v.getChildAdapterPosition(view);
                 Intent intent = new Intent(contextViewHolder, MapActivity.class);
                 intent.putExtra("lat", mData.get(position).latitude);

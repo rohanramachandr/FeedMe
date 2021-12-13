@@ -1,5 +1,7 @@
 package com.example.feedmewithfirebase;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import android.content.SharedPreferences;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,10 +38,12 @@ public class SellerFragment extends Fragment implements SellerRecyclerAdapter.It
     private static final String ARG_PARAM2 = "param2";
 
     private SellerRecyclerAdapter adapter;
+    ArrayList<SellerHelperClass> list;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String username;
 
     public SellerFragment() {
         // Required empty public constructor
@@ -58,29 +69,58 @@ public class SellerFragment extends Fragment implements SellerRecyclerAdapter.It
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        SharedPreferences pref = getContext().getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+        username = pref.getString("username", "");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
+
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SellerRecyclerAdapter.ItemClickListener listener = this;
+        Context context = getContext();
 
-        ArrayList<String> list = new ArrayList<>();
-        list.add("test a");
-        list.add("test b");
-        list.add("test c");
 
-//        RecyclerView recyclerView = view.findViewById(R.id.sellerRecycler);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        adapter = new SellerRecyclerAdapter(getContext(), list);
-//        adapter.setClickListener(this);
-//        Log.d("test", adapter.getItem(1));
-//
-//        recyclerView.setAdapter(adapter);
+
+        list = new ArrayList<>();
+        if(list.size() == 0) {
+            list = new ArrayList<>();
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Sellers");
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        SellerHelperClass s = ds.getValue(SellerHelperClass.class);
+                        if (s.sellerId.equals(username))
+                        list.add(s);
+
+                    }
+                    RecyclerView recyclerView = view.findViewById(R.id.sellerRecycler);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    adapter = new SellerRecyclerAdapter(context, getActivity(), list, recyclerView);
+                    adapter.setClickListener(listener);
+//        Log.d("test", adapter.getItem(1).toString());
+
+                    recyclerView.setAdapter(adapter);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+
     }
 
     @Override

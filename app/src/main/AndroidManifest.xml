@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FeedMeWIthFirebase">
         <activity
+            android:name=".verifyPurchase"
+            android:exported="true" />
+        <activity
             android:name=".SellerActivity"
             android:exported="false" />
         <activity
