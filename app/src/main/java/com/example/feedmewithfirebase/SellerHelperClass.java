@@ -1,6 +1,7 @@
 package com.example.feedmewithfirebase;
 
 import android.location.Location;
+import android.util.Log;
 
 public class SellerHelperClass {
     public String eventId, sellerId, eventName, foodItem, startTime, endTime, location, latitude, longitude, description;
@@ -28,7 +29,8 @@ public class SellerHelperClass {
         float[] result = new float[1];
         Location.distanceBetween(currLatitude, currLongitude,
                 Double.parseDouble(latitude), Double.parseDouble(longitude), result);
-        double distance = result[0];
+        double distance = result[0]*0.000621371192; // from meters to miles
+        Log.d("test2", String.valueOf(distance));
         if(distance < 0.1) {
             distance *= 5280;
             return (int)distance + " ft";

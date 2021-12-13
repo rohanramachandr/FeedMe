@@ -129,9 +129,8 @@ public class BuyerFragment extends Fragment implements BuyerRecyclerAdapter.Item
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         SellerHelperClass s = ds.getValue(SellerHelperClass.class);
                         list.add(s);
-                        Log.d("test", s.toString());
-                        Log.d("test", "lmao");
-                        Log.d("test", String.valueOf(list.size()));
+                        Log.d("test1", s.latitude);
+                        Log.d("test1", s.longitude);
                     }
                     RecyclerView recyclerView = view.findViewById(R.id.buyerRecycler);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

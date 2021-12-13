@@ -11,12 +11,15 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.feedme.ProfileActivity;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Locale;
@@ -49,28 +52,41 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
         SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+
         LatLng currLocation = new LatLng(Double.parseDouble(pref.getString("latitude", "")),
                 Double.parseDouble(pref.getString("longitude", "")));
-        mMap.addMarker(new MarkerOptions()
+        Marker m1 = mMap.addMarker(new MarkerOptions()
                 .position(currLocation)
                 .title("Your Location"));
-        Log.d("test", getIntent().getStringExtra("lat"));
-        Log.d("test", getIntent().getStringExtra("long"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(currLocation));
         LatLng targetLocation = new LatLng(Double.parseDouble(getIntent().getStringExtra("lat")),
                 Double.parseDouble(getIntent().getStringExtra("long")));
-        mMap.addMarker(new MarkerOptions()
+        Marker m2 = mMap.addMarker(new MarkerOptions()
                 .position(targetLocation)
                 .title("TargetLocation"));
         LatLng midPoint = getMidPoint(Double.parseDouble(pref.getString("latitude", "")),
                 Double.parseDouble(pref.getString("longitude", "")),
                 Double.parseDouble(getIntent().getStringExtra("lat")),
                 Double.parseDouble(getIntent().getStringExtra("long")));
-        CameraPosition camera = new CameraPosition.Builder().target(midPoint).zoom(14).build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camera));
+
+        // build a new camera to zoom properly
+//        CameraPosition camera = new CameraPosition.Builder().target(midPoint).zoom(14).build();
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+        // add both markers locations to the builder
+        builder.include(m1.getPosition());
+        builder.include(m2.getPosition());
+        LatLngBounds bounds = builder.build();
+
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 20);
+        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                mMap.animateCamera(cu);
+            }
+        });
+
     }
 
     private LatLng getMidPoint(double lat1, double long1, double lat2, double long2) {
