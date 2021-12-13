@@ -105,19 +105,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             // if already waiting for one event
             if (pref.getString("currEvent", "0").equals("0")) {
                 // do nothing
-                Log.d("test3", "do nothing");
+//                Log.d("test3", "do nothing");
             } else if (!pref.getString("currEvent", "0").equals(getIntent().getStringExtra("eventId"))) {
                 // event does not match for current token
-                Log.d("test3", "warn token");
+//                Log.d("test3", "warn token");
                 warnToken(pref.getString("eventName", "MISSING"));
             } else {
                 // check to see if the event matches otherwise clear all
-                Log.d("test3", "query");
+//                Log.d("test3", "query");
                 Query checkUser = reference.orderByChild("transactionId").equalTo(pref.getString("currTransaction", "0"));
                 checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Log.d("test3", "is pending " + snapshot.child(pref.getString("currTransaction", "0")).child("requestPending").getValue(Boolean.class));
+//                        Log.d("test3", "is pending " + snapshot.child(pref.getString("currTransaction", "0")).child("requestPending").getValue(Boolean.class));
                         if (snapshot.exists() && snapshot.child(pref.getString("currTransaction", "0")).child("requestPending").getValue(Boolean.class) == true) {
                             showToken(findViewById(R.id.requestButton));
                         } else {
