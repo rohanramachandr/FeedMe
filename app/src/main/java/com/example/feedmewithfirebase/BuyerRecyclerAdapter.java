@@ -52,7 +52,7 @@ public class BuyerRecyclerAdapter extends RecyclerView.Adapter<BuyerRecyclerAdap
         double priceString = mData.get(position).price;
         String distanceString = mData.get(position).getDistance(Double.valueOf(latitude), Double.valueOf(longitude));
         holder.foodText.setText(foodTextString);
-        holder.priceText.setText(String.valueOf(priceString));
+        holder.priceText.setText(String.format("%.2f", priceString));
         holder.distanceText.setText(distanceString);
     }
 
