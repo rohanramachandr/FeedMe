@@ -96,23 +96,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         builder.include(m2.getPosition());
         LatLngBounds bounds = builder.build();
 
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 20);
-        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-            @Override
-            public void onMapLoaded() {
-                mMap.animateCamera(cu);
-            }
-        });
-        Log.d("test3", "lmao");
-        Log.d("test3", pref.getString("currTransaction", "0"));
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 200);
+        mMap.setOnMapLoadedCallback(() -> mMap.animateCamera(cu));
 
         // if there is a current transaction ongoing
         if(!pref.getString("currTransaction", "0").equals("0")) {
-            Log.d("test3", "lmaooo");
 
             // if already waiting for one event
-            Log.d("test3", "currEvent " + pref.getString("currEvent", "0"));
-            Log.d("test3", "this event " + getIntent().getStringExtra("eventId"));
             if (pref.getString("currEvent", "0").equals("0")) {
                 // do nothing
                 Log.d("test3", "do nothing");
@@ -127,7 +117,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
+                        Log.d("test3", "is pending " + snapshot.child(pref.getString("currTransaction", "0")).child("requestPending").getValue(Boolean.class));
+                        if (snapshot.exists() && snapshot.child(pref.getString("currTransaction", "0")).child("requestPending").getValue(Boolean.class) == true) {
                             showToken(findViewById(R.id.requestButton));
                         } else {
                             pref.edit().putString("currTransaction", "0").apply();
@@ -235,6 +226,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 }
+// TODO:
+/*
+    Automatically cancelling after TTL expires for request
+    Event is removed and client wants to cancel, but event no longer shows
+    SharedPreferences shows request still ongoing, but no way to cancel
+*/
 
 
 
