@@ -192,6 +192,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         tokenText.setText(token);
         // set the constraintview to visible and hide the button
         showToken(v);
+
+        //create pending intent to go to notifications page
+        Intent notificationsPageIntent = new Intent(this, NotificationsActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationsPageIntent, 0);
+
+        //send notification
+        Notification notification = new NotificationCompat.Builder(this, "channel1")
+                .setSmallIcon(R.drawable.ic_baseline_add_shopping_cart_24)
+                .setContentTitle("Your Purchase Request on FeedMe")
+                .setContentText("Confirmation Number " + token)
+                .setAutoCancel(true)
+                .setContentIntent(contentIntent)
+                .setOnlyAlertOnce(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        notificationManager.notify(1, notification);
     }
 
     private void warnToken(String eventName) {
@@ -212,25 +229,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         ConstraintLayout layout = findViewById(R.id.tokenGroup);
         layout.setVisibility(View.VISIBLE);
         v.setVisibility(View.GONE);
-
-        //create pending intent to go to notifications page
-        Intent notificationsPageIntent = new Intent(this, NotificationsActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationsPageIntent, 0);
-
-        //send notification
-        Notification notification = new NotificationCompat.Builder(this, "channel1")
-                .setSmallIcon(R.drawable.ic_baseline_add_shopping_cart_24)
-                .setContentTitle("Your Purchase Request on FeedMe")
-                .setContentText("Confirmation Number " + token)
-                .setAutoCancel(true)
-                .setContentIntent(contentIntent)
-                .setOnlyAlertOnce(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .build();
-        notificationManager.notify(1, notification);
-
-
 
     }
 
