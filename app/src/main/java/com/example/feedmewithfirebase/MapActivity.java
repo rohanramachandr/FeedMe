@@ -133,6 +133,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         layout.setVisibility(View.GONE);
         Button requestButton = findViewById(R.id.requestButton);
         requestButton.setVisibility(View.VISIBLE);
+
+        // cancel should do something
+        // also save to persistent data? if theres already a query ongoing, then visible layouts should be different
     }
 
 }
