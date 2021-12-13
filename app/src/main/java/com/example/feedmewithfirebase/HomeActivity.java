@@ -169,16 +169,6 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickProfile(View view) {
-        Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickNotifications(View view) {
-        Intent intent = new Intent(this, NotificationsActivity.class);
-        startActivity(intent);
-    }
-
     public void onAddItemToSell(View view) {
         Intent intent = new Intent(this, SellerActivity.class);
         startActivity(intent);

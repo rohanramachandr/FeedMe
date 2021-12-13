@@ -203,7 +203,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .setContentTitle("Your Purchase Request on FeedMe")
                 .setContentText("Confirmation Number " + token)
                 .setAutoCancel(true)
-                .setContentIntent(contentIntent)
+                //.setContentIntent(contentIntent)
                 .setOnlyAlertOnce(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
