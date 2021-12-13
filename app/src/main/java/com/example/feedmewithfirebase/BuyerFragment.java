@@ -125,12 +125,12 @@ public class BuyerFragment extends Fragment implements BuyerRecyclerAdapter.Item
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Log.d("test", "----------LOGGING onViewCreated----------");
+//                    Log.d("test", "----------LOGGING onViewCreated----------");
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         SellerHelperClass s = ds.getValue(SellerHelperClass.class);
                         list.add(s);
-                        Log.d("test1", s.latitude);
-                        Log.d("test1", s.longitude);
+//                        Log.d("test1", s.latitude);
+//                        Log.d("test1", s.longitude);
                     }
                     RecyclerView recyclerView = view.findViewById(R.id.buyerRecycler);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

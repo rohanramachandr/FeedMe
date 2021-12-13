@@ -1,5 +1,6 @@
 package com.example.feedmewithfirebase;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
@@ -28,9 +29,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 
@@ -104,6 +109,46 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 mMap.animateCamera(cu);
             }
         });
+        Log.d("test3", "lmao");
+        Log.d("test3", pref.getString("currTransaction", "0"));
+
+        // if there is a current transaction ongoing
+        if(!pref.getString("currTransaction", "0").equals("0")) {
+            Log.d("test3", "lmaooo");
+
+            // if already waiting for one event
+            Log.d("test3", "currEvent " + pref.getString("currEvent", "0"));
+            Log.d("test3", "this event " + getIntent().getStringExtra("eventId"));
+            if (pref.getString("currEvent", "0").equals("0")) {
+                // do nothing
+                Log.d("test3", "do nothing");
+            } else if (!pref.getString("currEvent", "0").equals(getIntent().getStringExtra("eventId"))) {
+                // event does not match for current token
+                Log.d("test3", "warn token");
+                warnToken(pref.getString("eventName", "MISSING"));
+            } else {
+                // check to see if the event matches otherwise clear all
+                Log.d("test3", "query");
+                Query checkUser = reference.orderByChild("transactionId").equalTo(pref.getString("currTransaction", "0"));
+                checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            showToken(findViewById(R.id.requestButton));
+                        } else {
+                            pref.edit().putString("currTransaction", "0").apply();
+                            pref.edit().putString("currEvent", "0").apply();
+                            pref.edit().putString("token", "00000").apply();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }
 
     }
 
@@ -139,15 +184,40 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         String transactionId = Integer.toString(transaction);
         // get fields from shared pref
         SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
-        String eventId = pref.getString("eventId", "");
+        String eventId = getIntent().getStringExtra("eventId");
         String buyerPhoneNumber = pref.getString("phoneNumber", "");
         // push to values to database (pending auto set to true upon creation)
         TransactionHelperClass helperClass = new TransactionHelperClass(transactionId, token, eventId, buyerPhoneNumber, true);
         reference.child(transactionId).setValue(helperClass);
+        // set the current transaction
+        pref.edit().putString("currTransaction", transactionId).apply();
+        pref.edit().putString("currEvent", eventId).apply();
+        pref.edit().putString("eventName", getIntent().getStringExtra("eventName")).apply();
+        pref.edit().putString("token", token).apply();
+        Log.d("test3", "updating currTransaction with " + transactionId);
+        Log.d("test3", pref.getString("currTransaction", "0"));
         // update token textview
         TextView tokenText = findViewById(R.id.tokenText);
         tokenText.setText(token);
         // set the constraintview to visible and hide the button
+        showToken(v);
+    }
+
+    private void warnToken(String eventName) {
+        TextView tokenText = findViewById(R.id.tokenText);
+        tokenText.setText("Finish or cancel existing request for " + eventName);
+        ConstraintLayout layout = findViewById(R.id.tokenGroup);
+        layout.setVisibility(View.VISIBLE);
+        Button requestButton = findViewById(R.id.requestButton);
+        requestButton.setVisibility(View.GONE);
+        Button cancelButton = findViewById(R.id.cancelButton);
+        cancelButton.setVisibility(View.GONE);
+    }
+
+    private void showToken(View v) {
+        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+        TextView tokenText = findViewById(R.id.tokenText);
+        tokenText.setText(pref.getString("token", "0"));
         ConstraintLayout layout = findViewById(R.id.tokenGroup);
         layout.setVisibility(View.VISIBLE);
         v.setVisibility(View.GONE);
@@ -174,12 +244,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void cancelButton(View v) {
+        // display the request button again
         ConstraintLayout layout = findViewById(R.id.tokenGroup);
         layout.setVisibility(View.GONE);
         Button requestButton = findViewById(R.id.requestButton);
         requestButton.setVisibility(View.VISIBLE);
 
         // cancel should do something
+        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+        reference.child(pref.getString("currTransaction", "0")).setValue(null);
+        pref.edit().putString("currTransaction", "0").apply();
+        pref.edit().putString("currEvent", "0").apply();
+        pref.edit().putString("token", "00000").apply();
+        Log.d("test3", "setting currTransaction to 0");
         // also save to persistent data? if theres already a query ongoing, then visible layouts should be different
     }
 

@@ -53,7 +53,7 @@ public class SellerActivity extends AppCompatActivity {
 //
         // Just make the sellerID same as username
         SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
-        pref.edit().putString("eventId", eventId).apply();
+//        pref.edit().putString("eventId", eventId).apply();
         String sellerId = pref.getString("username", "");
         String location = pref.getString("location",""); // this will be ""
         String lat = pref.getString("latitude", "");
