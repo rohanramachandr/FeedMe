@@ -80,20 +80,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Food Interests"
+        android:text="Food Preferences"
+        android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="@id/name"
-        app:layout_constraintTop_toBottomOf="@id/profileUsername"
-        tools:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/interestValue1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="TextView"
-        app:layout_constraintLeft_toLeftOf="@id/nameValue"
-        app:layout_constraintTop_toBottomOf="@id/interests"
-        tools:textSize="20sp" />
+        app:layout_constraintTop_toBottomOf="@id/profileUsername" />
 
     <Button
         android:id="@+id/profileModify"
@@ -129,7 +119,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="TextView"
+        android:text="Mexican"
         android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="@id/interestValue1"
         app:layout_constraintTop_toBottomOf="@id/interestValue1" />
@@ -139,9 +129,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="TextView"
+        android:text="BBQ"
         android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="@id/interestValue1"
-        app:layout_constraintTop_toBottomOf="@id/interestValue2" />
+        app:layout_constraintTop_toBottomOf="@id/interestValue2"
+        tools:layout_editor_absoluteX="139dp" />
+
+    <TextView
+        android:id="@+id/interestValue1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Comfort"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="@id/nameValue"
+        app:layout_constraintTop_toBottomOf="@id/interests" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
