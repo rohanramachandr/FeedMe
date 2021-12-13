@@ -3,7 +3,11 @@ package com.example.feedmewithfirebase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,6 +45,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private FirebaseDatabase rootNode;
     private DatabaseReference reference;
+    private NotificationManagerCompat notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         rootNode = FirebaseDatabase.getInstance("https://feedme-55e8d-default-rtdb.firebaseio.com/");
         reference = rootNode.getReference("Transactions");
+        notificationManager = NotificationManagerCompat.from(this);
     }
 
     /**
@@ -206,6 +212,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         ConstraintLayout layout = findViewById(R.id.tokenGroup);
         layout.setVisibility(View.VISIBLE);
         v.setVisibility(View.GONE);
+
+        //create pending intent to go to notifications page
+        Intent notificationsPageIntent = new Intent(this, NotificationsActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationsPageIntent, 0);
+
+        //send notification
+        Notification notification = new NotificationCompat.Builder(this, "channel1")
+                .setSmallIcon(R.drawable.ic_baseline_add_shopping_cart_24)
+                .setContentTitle("Your Purchase Request on FeedMe")
+                .setContentText("Confirmation Number " + token)
+                .setAutoCancel(true)
+                .setContentIntent(contentIntent)
+                .setOnlyAlertOnce(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .build();
+        notificationManager.notify(1, notification);
+
+
+
     }
 
     public void cancelButton(View v) {
