@@ -2,17 +2,14 @@ package com.example.feedmewithfirebase;
 
 public class TransactionHelperClass {
     public TransactionHelperClass(){}
-    public String buyerId, sellerId, description, transactionId, time;
-    public boolean requestApproved;
-    public double price;
+    public String transactionId, tokenId, eventId, buyerPhoneNumber;
+    public boolean requestPending;
 
-    public TransactionHelperClass(String buyerId, String sellerId, double price, String description, String transactionId, String time, boolean requestApproved) {
-        this.buyerId= buyerId;
-        this.sellerId = sellerId;
-        this.price = price;
-        this.description =  description;
+    public TransactionHelperClass(String transactionId, String tokenId, String eventId, String buyerPhoneNumber, boolean requestPending) {
         this.transactionId = transactionId;
-        this.time = time;
-        this.requestApproved = requestApproved;
+        this.tokenId = tokenId;
+        this.eventId = eventId;
+        this.buyerPhoneNumber = buyerPhoneNumber;
+        this.requestPending = requestPending;
     }
 }

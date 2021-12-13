@@ -24,12 +24,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Transaction;
 
 import java.util.Locale;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    private FirebaseDatabase rootNode;
+    private DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        rootNode = FirebaseDatabase.getInstance("https://feedme-55e8d-default-rtdb.firebaseio.com/");
+        reference = rootNode.getReference("Transactions");
     }
 
     /**
@@ -119,6 +128,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // generate token
         String token = String.format("%05d", (int) (Math.random() * 99999));
         // populate the table with the new request
+        // create transaction id
+        int transaction = (int)(Math.random() * (999999999 - 100000000) + 100000000);
+        String transactionId = Integer.toString(transaction);
+        // get fields from shared pref
+        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+        String eventId = pref.getString("eventId", "");
+        String buyerPhoneNumber = pref.getString("phoneNumber", "");
+        // push to values to database (pending auto set to true upon creation)
+        TransactionHelperClass helperClass = new TransactionHelperClass(transactionId, token, eventId, buyerPhoneNumber, true);
+        reference.child(transactionId).setValue(helperClass);
         // update token textview
         TextView tokenText = findViewById(R.id.tokenText);
         tokenText.setText(token);

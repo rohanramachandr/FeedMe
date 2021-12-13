@@ -4,11 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Owner/Documents/GitHub/FeedMe/app/src/main/res/drawable/border.xml" value="0.11927083333333334" />
+        <entry key="..\:/Users/Owner/Documents/GitHub/FeedMe/app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="..\:/Users/Owner/Documents/GitHub/FeedMe/app/src/main/res/layout/activity_seller.xml" value="0.30795551753635586" />
         <entry key="..\:/Users/Owner/Documents/GitHub/FeedMe/app/src/main/res/layout/fragment_seller_recycler_row.xml" value="0.1" />
+        <entry key="..\:/Users/Owner/Documents/GitHub/FeedMe/app/src/main/res/layout/seller_recycler_row.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1480978260869565" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1358695652173913" />
-        <entry key="app/src/main/res/layout/activity_map.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_map.xml" value="0.1308876811594203" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.17391304347826086" />
         <entry key="app/src/main/res/layout/buyer_recycler_component.xml" value="0.192481884057971" />
         <entry key="app/src/main/res/layout/buyer_recycler_row.xml" value="0.25" />

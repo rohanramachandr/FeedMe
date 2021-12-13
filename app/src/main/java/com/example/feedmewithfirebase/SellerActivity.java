@@ -48,10 +48,12 @@ public class SellerActivity extends AppCompatActivity {
         String endDate = ((TextView)findViewById(R.id.endDate)).getText().toString();
 
         int seed = (int)(Math.random() * (999999999 - 100000000) + 100000000);
-        String eventId = Integer.toString(seed); // TODO
+        String eventId = Integer.toString(seed);
+
 //
         // Just make the sellerID same as username
         SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+        pref.edit().putString("eventId", eventId).apply();
         String sellerId = pref.getString("username", "");
         String location = pref.getString("location",""); // this will be ""
         String lat = pref.getString("latitude", "");

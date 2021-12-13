@@ -2,7 +2,9 @@ package com.example.feedmewithfirebase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText regFirstName, regLastName, regUsername, regPassword, regConfirmPassword;
+    EditText regFirstName, regLastName, regUsername, regPassword, regConfirmPassword, regPhoneNumber;
 
 
 
@@ -55,15 +57,21 @@ public class RegisterActivity extends AppCompatActivity {
         regUsername = findViewById(R.id.username);
         regPassword = findViewById(R.id.password);
         regConfirmPassword = findViewById(R.id.password);
+        regPhoneNumber = findViewById(R.id.phoneNumber);
 
         String firstName = regFirstName.getText().toString();
         String lastName = regLastName.getText().toString();
         String username = regUsername.getText().toString();
+        String phoneNumber = regPhoneNumber.getText().toString();
         
         String password = regPassword.getText().toString();
         String confirmPassword = regConfirmPassword.getText().toString();
 
-        UserHelperClass helperClass = new UserHelperClass(firstName, lastName, username, password, "", "");
+        //Put phone number to shared preferences
+        SharedPreferences pref = getSharedPreferences("com.example.feedme", Context.MODE_PRIVATE);
+        pref.edit().putString("phoneNumber", phoneNumber).apply();
+
+        UserHelperClass helperClass = new UserHelperClass(firstName, lastName, phoneNumber, username, password, "", "");
         reference.child(username).setValue(helperClass);
 
         Intent intent = new Intent(this, MainActivity.class);
