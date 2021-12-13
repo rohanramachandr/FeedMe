@@ -131,8 +131,8 @@
         android:layout_marginTop="5dp"
         android:text="BBQ"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/interestValue2"
-        tools:layout_editor_absoluteX="139dp" />
+        app:layout_constraintLeft_toLeftOf="@id/nameValue"
+        app:layout_constraintTop_toBottomOf="@id/interestValue2" />
 
     <TextView
         android:id="@+id/interestValue1"
